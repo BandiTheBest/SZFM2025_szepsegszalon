@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="10"
+      xmlns="http://javafx.com/javafx/23.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.LoginController"
+      prefWidth="300" prefHeight="200">
+
+    <Label text="YourBeauty - Üdvözöljük!" style="-fx-font-size: 18px;"/>
+
+    <TextField fx:id="usernameField" promptText="Felhasználónév"/>
+    <PasswordField fx:id="passwordField" promptText="Jelszó"/>
+
+    <Button text="Belépés" onAction="#onLogin"/>
+    <Button text="Regisztráció" onAction="#onRegisterClicked"/>
+
+    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+
+</VBox>

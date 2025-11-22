@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="10"
+      xmlns="http://javafx.com/javafx/23.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.RegistrationController"
+      prefWidth="300" prefHeight="250">
+
+    <Label text="Regisztráció" style="-fx-font-size: 18px;"/>
+
+    <TextField fx:id="usernameField" promptText="Felhasználónév"/>
+    <PasswordField fx:id="passwordField" promptText="Jelszó"/>
+    <PasswordField fx:id="passwordConfirmField" promptText="Jelszó megerősítése"/>
+
+    <Button text="Regisztráció" onAction="#onRegister"/>
+    <Button text="Vissza a bejelentkezéshez" onAction="#onBack"/>
+
+    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+</VBox>
