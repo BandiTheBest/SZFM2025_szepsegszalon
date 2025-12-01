@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<VBox alignment="CENTER" spacing="10"
-      xmlns="http://javafx.com/javafx/23.0.2"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.LoginController"
-      prefWidth="300" prefHeight="200">
+<StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.LoginController">
+    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" styleClass="root">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
 
-    <Label text="YourBeauty - Üdvözöljük!" style="-fx-font-size: 18px;"/>
+        <VBox alignment="CENTER" maxWidth="400.0" spacing="20.0" styleClass="form-container">
 
-    <TextField fx:id="usernameField" promptText="Felhasználónév"/>
-    <PasswordField fx:id="passwordField" promptText="Jelszó"/>
+            <Label styleClass="header-label" text="YourBeauty - Üdvözöljük!" />
 
-    <Button text="Belépés" onAction="#onLogin"/>
-    <Button text="Regisztráció" onAction="#onRegisterClicked"/>
+            <VBox spacing="15.0">
+                <TextField fx:id="usernameField" promptText="Felhasználónév" styleClass="text-field" />
+                <PasswordField fx:id="passwordField" promptText="Jelszó" styleClass="password-field" />
+            </VBox>
 
-    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+            <VBox alignment="CENTER" spacing="10.0">
+                <Button maxWidth="Infinity" onAction="#onLogin" styleClass="primary-button" text="Belépés" />
+                <Button onAction="#onRegisterClicked" styleClass="secondary-button" text="Regisztráció" />
+            </VBox>
 
-</VBox>
+            <Label fx:id="errorLabel" styleClass="error-label" />
+
+        </VBox>
+    </VBox>
+</StackPane>
