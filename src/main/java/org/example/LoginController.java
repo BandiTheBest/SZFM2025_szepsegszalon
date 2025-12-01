@@ -35,6 +35,7 @@ public class LoginController {
         }
     }
 
+
     @FXML
     private void onRegisterClicked() {
         try {
@@ -53,12 +54,12 @@ public class LoginController {
 
     private void loadMainWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("services.fxml"));
             Scene scene = new Scene(loader.load());
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("YourBeauty Szépségszalon - Időpontfoglalás");
+            stage.setTitle("YourBeauty Szépségszalon - Szolgáltatásaink");
             stage.show();
 
         } catch (Exception e) {

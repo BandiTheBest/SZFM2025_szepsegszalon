@@ -12,7 +12,7 @@
       fx:controller="org.example.RegistrationController"
       prefWidth="300" prefHeight="250">
 
-    <Label text="Regisztráció" style="-fx-font-size: 18px;"/>
+    <Label text="YourBeauty - Regisztráció" style="-fx-font-size: 18px;"/>
 
     <TextField fx:id="usernameField" promptText="Felhasználónév"/>
     <PasswordField fx:id="passwordField" promptText="Jelszó"/>
