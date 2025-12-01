@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<VBox alignment="CENTER" spacing="10"
-      xmlns="http://javafx.com/javafx/23.0.2"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.RegistrationController"
-      prefWidth="300" prefHeight="250">
+<StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.RegistrationController">
+    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" styleClass="root">
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        </padding>
 
-    <Label text="YourBeauty - Regisztráció" style="-fx-font-size: 18px;"/>
+        <VBox alignment="CENTER" maxWidth="400.0" spacing="20.0" styleClass="form-container">
 
-    <TextField fx:id="usernameField" promptText="Felhasználónév"/>
-    <PasswordField fx:id="passwordField" promptText="Jelszó"/>
-    <PasswordField fx:id="passwordConfirmField" promptText="Jelszó megerősítése"/>
+            <Label styleClass="header-label" text="YourBeauty - Regisztráció" />
 
-    <Button text="Regisztráció" onAction="#onRegister"/>
-    <Button text="Vissza a bejelentkezéshez" onAction="#onBack"/>
+            <VBox spacing="15.0">
+                <TextField fx:id="usernameField" promptText="Felhasználónév" styleClass="text-field" />
+                <PasswordField fx:id="passwordField" promptText="Jelszó" styleClass="password-field" />
+                <PasswordField fx:id="passwordConfirmField" promptText="Jelszó megerősítése" styleClass="password-field" />
+            </VBox>
 
-    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
-</VBox>
+            <VBox alignment="CENTER" spacing="10.0">
+                <Button maxWidth="Infinity" onAction="#onRegister" styleClass="primary-button" text="Regisztráció" />
+                <Button onAction="#onBack" styleClass="secondary-button" text="Vissza a bejelentkezéshez" />
+            </VBox>
+
+            <Label fx:id="errorLabel" styleClass="error-label" />
+
+        </VBox>
+    </VBox>
+</StackPane>
