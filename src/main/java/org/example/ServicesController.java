@@ -29,9 +29,7 @@ public class ServicesController {
                 System.out.println("Noi fodraszat kivalasztva!")
         );
 
-        btnMaleHair.setOnAction(e ->
-                System.out.println("Ferfi fodraszat kivalasztva!")
-        );
+        btnMaleHair.setOnAction(e -> handleMaleHair());
 
         btnMassage.setOnAction(e ->
                 System.out.println("Masszazs kivalasztva!")
@@ -47,6 +45,20 @@ public class ServicesController {
             Stage stage = (Stage) btnNails.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Műköröm szolgáltatás – Időpontfoglalás");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void handleMaleHair() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("man_hair_booking.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) btnMaleHair.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Férfi Hajvágás szolgáltatás – Időpontfoglalás");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
