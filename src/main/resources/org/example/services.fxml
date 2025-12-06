@@ -5,45 +5,42 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<GridPane xmlns="http://javafx.com/javafx/23.0.2"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="org.example.ServicesController"
-          hgap="20" vgap="20">
+<StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ServicesController">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+    <VBox alignment="CENTER" prefHeight="500.0" prefWidth="700.0" styleClass="root">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
 
-    <!-- Cím -->
-    <Label text="Válasszon szolgáltatást:"
-           style="-fx-font-size: 24px; -fx-font-weight: bold;"
-           GridPane.columnIndex="0" GridPane.rowIndex="0"
-           GridPane.columnSpan="2"/>
+        <VBox alignment="CENTER" styleClass="form-container" spacing="30.0">
 
-    <!-- Műköröm -->
-    <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
-        <Label text="Műköröm" style="-fx-font-size: 18px;"/>
-        <Button text="Időpont foglalása" fx:id="btnNails" prefWidth="180"/>
+            <Label text="Válasszon szolgáltatást:" styleClass="header-label"/>
+
+            <GridPane hgap="40" vgap="40" alignment="CENTER">
+
+                <VBox spacing="10" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="Műköröm" styleClass="sub-label"/>
+                    <Button text="Időpont foglalása" fx:id="btnNails" prefWidth="180" styleClass="primary-button" onAction="#handleNails"/>
+                </VBox>
+
+                <VBox spacing="10" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label text="Női fodrászat" styleClass="sub-label"/>
+                    <Button text="Időpont foglalása" fx:id="btnFemaleHair" prefWidth="180" styleClass="primary-button" onAction="#handleFemaleHair"/>
+                </VBox>
+
+                <VBox spacing="10" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label text="Férfi fodrászat" styleClass="sub-label"/>
+                    <Button text="Időpont foglalása" fx:id="btnMaleHair" prefWidth="180" styleClass="primary-button" onAction="#handleMaleHair"/>
+                </VBox>
+
+                <VBox spacing="10" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Label text="Masszázs" styleClass="sub-label"/>
+                    <Button text="Időpont foglalása" fx:id="btnMassage" prefWidth="180" styleClass="primary-button" onAction="#handleMassage"/>
+                </VBox>
+
+            </GridPane>
+        </VBox>
     </VBox>
-
-    <!-- Női fodrászat -->
-    <VBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <Label text="Női fodrászat" style="-fx-font-size: 18px;"/>
-        <Button text="Időpont foglalása" fx:id="btnFemaleHair" prefWidth="180"/>
-    </VBox>
-
-    <!-- Férfi fodrászat -->
-    <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
-        <Label text="Férfi fodrászat" style="-fx-font-size: 18px;"/>
-        <Button text="Időpont foglalása" fx:id="btnMaleHair" prefWidth="180"/>
-    </VBox>
-
-    <!-- Masszázs -->
-    <VBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
-        <Label text="Masszázs" style="-fx-font-size: 18px;"/>
-        <Button text="Időpont foglalása" fx:id="btnMassage" prefWidth="180"/>
-    </VBox>
-
-</GridPane>
-
+</StackPane>
