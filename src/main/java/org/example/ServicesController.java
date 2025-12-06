@@ -25,6 +25,8 @@ public class ServicesController {
 
         btnNails.setOnAction(e -> handleNails());
 
+        btnFemaleHair.setOnAction(e -> handleFemaleHair());
+
         btnFemaleHair.setOnAction(e ->
                 System.out.println("Noi fodraszat kivalasztva!")
         );
@@ -34,6 +36,7 @@ public class ServicesController {
         btnMassage.setOnAction(e ->
                 System.out.println("Masszazs kivalasztva!")
         );
+
     }
 
     @FXML
@@ -44,7 +47,7 @@ public class ServicesController {
 
             Stage stage = (Stage) btnNails.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Műköröm szolgáltatás – Időpontfoglalás");
+            stage.setTitle("Műköröm Szolgáltatás – Időpontfoglalás");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,11 +61,24 @@ public class ServicesController {
 
             Stage stage = (Stage) btnMaleHair.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Férfi Hajvágás szolgáltatás – Időpontfoglalás");
+            stage.setTitle("Férfi Hajvágás Szolgáltatás – Időpontfoglalás");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void  handleFemaleHair() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("female_hair_booking.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) btnFemaleHair.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Női Hajvágás Szolgáltatás – Időpontfoglalás");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
