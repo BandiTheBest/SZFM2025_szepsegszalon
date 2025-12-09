@@ -27,10 +27,6 @@ public class ServicesController {
 
         btnFemaleHair.setOnAction(e -> handleFemaleHair());
 
-        btnFemaleHair.setOnAction(e ->
-                System.out.println("Noi fodraszat kivalasztva!")
-        );
-
         btnMaleHair.setOnAction(e -> handleMaleHair());
 
         btnMassage.setOnAction(e ->
@@ -53,6 +49,7 @@ public class ServicesController {
             e.printStackTrace();
         }
     }
+
     @FXML
     private void handleMaleHair() {
         try {
@@ -68,7 +65,8 @@ public class ServicesController {
         }
     }
 
-    private void  handleFemaleHair() {
+    @FXML
+    private void handleFemaleHair() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("female_hair_booking.fxml"));
             Scene scene = new Scene(loader.load());
@@ -80,5 +78,10 @@ public class ServicesController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleMassage() {
+
     }
 }

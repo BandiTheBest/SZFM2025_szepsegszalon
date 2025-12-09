@@ -9,7 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 
-public class ManHairBookingController {
+public class FemaleHairBookingController {
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<String> timeCombo;
     @FXML private Button btnBook;
@@ -19,13 +19,11 @@ public class ManHairBookingController {
 
     @FXML
     public void initialize() {
-
         appointmentRepo = new AppointmentRepository();
 
-
         timeCombo.getItems().addAll(
-                "08:00", "09:00", "10:00", "11:00","12:00",
-                "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"
+                "08:00", "10:00", "12:00",
+                "14:00", "16:00", "18:00", "20:00"
         );
 
         btnBook.setOnAction(e -> handleBooking());
@@ -38,8 +36,9 @@ public class ManHairBookingController {
             return;
         }
 
+        // Itt hívjuk meg a mentést
         boolean success = appointmentRepo.save(
-                "Férfi Hajvágás",
+                "Női Hajvágás",
                 datePicker.getValue(),
                 timeCombo.getValue()
         );

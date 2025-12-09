@@ -9,14 +9,14 @@
 
 <VBox xmlns="http://javafx.com/javafx/23.0.2"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.ManHairBookingController"
+      fx:controller="org.example.FemaleHairBookingController"
       spacing="20">
 
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Férfi Hajvágás – Időpontfoglalás"
+    <Label text="Női Hajvágás – Időpontfoglalás"
            style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
 
     <Label text="Válasszon dátumot:" style="-fx-font-size: 16px;"/>
