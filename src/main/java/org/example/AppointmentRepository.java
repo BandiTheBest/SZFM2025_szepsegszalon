@@ -78,4 +78,50 @@ public class AppointmentRepository {
             return false;
         }
     }
+
+    public List<Appointment> getAppointmentsByUserId(int userId) {
+        List<Appointment> appointments = new ArrayList<>();
+        // Időrendben kérjük le (ORDER BY)
+        String sql = "SELECT * FROM appointments WHERE user_id = ? ORDER BY booking_date, booking_time";
+
+        Connection conn = Database.getConnection();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    appointments.add(new Appointment(
+                            rs.getInt("id"),
+                            rs.getString("service_name"),
+                            rs.getInt("user_id"),
+                            rs.getDate("booking_date").toLocalDate(),
+                            rs.getString("booking_time")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return appointments;
+    }
+
+    /**
+     * Töröl egy foglalást az adatbázisból ID alapján.
+     * Erre van szükség a "Lemondás" gombhoz.
+     */
+    public boolean deleteById(int id) {
+        String sql = "DELETE FROM appointments WHERE id = ?";
+
+        Connection conn = Database.getConnection();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int affected = stmt.executeUpdate();
+            return affected > 0; // Ha 0-nál több sort törölt, akkor sikeres volt
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
