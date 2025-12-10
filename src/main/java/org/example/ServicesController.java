@@ -113,4 +113,22 @@ public class ServicesController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleLogout() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = (Stage) btnNails.getScene().getWindow();
+
+            stage.setScene(scene);
+            stage.setTitle("YourBeauty - Bejelentkezés");
+            stage.show();
+
+        } catch (Exception e) {
+            System.err.println("Hiba a kijelentkezés során: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
