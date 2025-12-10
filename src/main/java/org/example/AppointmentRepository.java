@@ -124,4 +124,26 @@ public class AppointmentRepository {
             return false;
         }
     }
+
+    public boolean isAppointmentTaken(String serviceName, LocalDate date, String time) {
+        String sql = "SELECT COUNT(*) FROM appointments WHERE service_name = ? AND booking_date = ? AND booking_time = ?";
+
+        Connection conn = Database.getConnection();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, serviceName);
+            stmt.setDate(2, Date.valueOf(date));
+            stmt.setString(3, time);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Ha a számláló nagyobb mint 0, akkor már van ilyen foglalás
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Hiba esetén inkább "nem foglalt"-nak vesszük
+    }
 }
