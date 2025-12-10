@@ -117,7 +117,48 @@ public class MassageBookingController {
     
     @FXML
     private void handleBooking() {
-        // Logika a következő commitban!
+        String selectedTime = timeCombo.getValue();
+        LocalDate selectedDate = datePicker.getValue();
+        String selectedService = serviceCombo.getValue(); // A Comboboxban kiválasztott szolgáltatás neve
+
+        // 1. Validáció: Ellenőrizzük, hogy minden ki van-e választva
+        if (selectedTime == null || selectedDate == null || selectedService == null) {
+            messageLabel.setText("Hiba: Kérjük válasszon időpontot és szolgáltatást.");
+            messageLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        try {
+            // TODO: Lekérem a bejelentkezett felhasználó ID-jét!
+            // Ezt feltételezzük, hogy a Launcher/MainController osztályban tárolódik
+            // Ha még nincs ilyen logika a projektben, használjunk egy ideiglenes ID-t (pl. 1)
+            int currentUserId = 1; // Helyettesítsd a valós logika szerint! 
+
+            // 2. Létrehozzuk az Appointment objektumot
+            Appointment newAppointment = new Appointment(
+                SERVICE_NAME, // Az adatbázisban a kategória (Masszázs) tárolódik
+                currentUserId, 
+                selectedDate, 
+                selectedTime
+            );
+
+            // 3. Mentés az adatbázisba
+            if (appointmentRepository.saveAppointment(newAppointment)) {
+                messageLabel.setText("Sikeres foglalás! Időpont: " + selectedDate.toString() + " " + selectedTime);
+                messageLabel.setStyle("-fx-text-fill: green;");
+                
+                // 4. Frissítjük a szabad időpontokat, hogy a frissen foglalt idő eltűnjön
+                updateAvailableTimeSlots(selectedDate);
+            } else {
+                messageLabel.setText("Hiba a mentés során. Kérjük, próbálja újra.");
+                messageLabel.setStyle("-fx-text-fill: red;");
+            }
+            
+        } catch (Exception e) {
+            messageLabel.setText("Hiba történt: " + e.getMessage());
+            messageLabel.setStyle("-fx-text-fill: red;");
+            e.printStackTrace();
+        }
     }
     
     @FXML
