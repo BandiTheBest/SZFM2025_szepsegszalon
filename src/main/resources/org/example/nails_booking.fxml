@@ -6,28 +6,37 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.StackPane?>
 
-<VBox xmlns="http://javafx.com/javafx/23.0.2"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.NailsBookingController"
-      spacing="20">
+<StackPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.NailsBookingController">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+    <VBox alignment="CENTER" prefHeight="550.0" prefWidth="700.0" styleClass="root">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
 
-    <Label text="Műköröm – Időpontfoglalás"
-           style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+        <VBox alignment="TOP_CENTER" maxWidth="450.0" spacing="25.0" styleClass="form-container">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
 
-    <Label text="Válasszon dátumot:" style="-fx-font-size: 16px;"/>
-    <DatePicker fx:id="datePicker"/>
+            <Label text="Műköröm – Időpontfoglalás" styleClass="header-label"/>
 
-    <Label text="Válasszon időpontot:" style="-fx-font-size: 16px;"/>
-    <ComboBox fx:id="timeCombo" prefWidth="200"/>
+            <VBox alignment="CENTER" spacing="10">
+                <Label text="Válasszon dátumot:" styleClass="sub-label"/>
+                <DatePicker fx:id="datePicker" styleClass="date-picker" prefWidth="250"/>
+            </VBox>
 
-    <Button text="Foglalás véglegesítése" fx:id="btnBook" prefWidth="200"
-            style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <VBox alignment="CENTER" spacing="10">
+                <Label text="Válasszon időpontot:" styleClass="sub-label"/>
+                <ComboBox fx:id="timeCombo" prefWidth="250" styleClass="combo-box"/>
+            </VBox>
 
-    <Button text="Vissza" fx:id="btnBack" prefWidth="200"/>
+            <VBox alignment="CENTER" spacing="15.0">
+                <Button text="Foglalás véglegesítése" fx:id="btnBook" prefWidth="250" styleClass="primary-button"/>
+                <Button text="Vissza" fx:id="btnBack" prefWidth="250" styleClass="secondary-button"/>
+            </VBox>
 
-</VBox>
+        </VBox>
+    </VBox>
+</StackPane>
