@@ -18,26 +18,23 @@ public class AppointmentRepository {
      */
     public List<Appointment> getOccupiedAppointments(LocalDate date, String serviceName) {
         List<Appointment> occupied = new ArrayList<>();
-        // Lekérjük az összes foglalt időpontot az adott napra és szolgáltatásra.
-        // A user_id-t is lekérjük, bár a masszázs logikájához csak a booking_time kell.
         String sql = "SELECT id, service_name, user_id, booking_date, booking_time FROM appointments WHERE booking_date = ? AND service_name = ?";
 
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = Database.getConnection(); // Connection lekérése
 
-            // A DATE paraméter beállítása
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) { // Csak a Statement kerül a try-ba
+
             stmt.setDate(1, Date.valueOf(date));
             stmt.setString(2, serviceName);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    // Appointment objektum létrehozása az egyszerűsített sémából
                     occupied.add(new Appointment(
-                        rs.getInt("id"),
-                        rs.getString("service_name"),
-                        rs.getInt("user_id"), // Felhasználó ID-je
-                        rs.getDate("booking_date").toLocalDate(),
-                        rs.getString("booking_time")
+                            rs.getInt("id"),
+                            rs.getString("service_name"),
+                            rs.getInt("user_id"),
+                            rs.getDate("booking_date").toLocalDate(),
+                            rs.getString("booking_time")
                     ));
                 }
             }
@@ -54,22 +51,21 @@ public class AppointmentRepository {
      * @return true, ha sikeres a mentés.
      */
     public boolean saveAppointment(Appointment app) {
-        // user_id hozzáadva a mentési SQL-hez a sémának megfelelően
         String sql = "INSERT INTO appointments (service_name, user_id, booking_date, booking_time) VALUES (?, ?, ?, ?)";
-        
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        Connection conn = Database.getConnection(); // Connection lekérése
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) { // Csak a Statement kerül a try-ba
 
             stmt.setString(1, app.getServiceName());
-            stmt.setInt(2, app.getUserId()); 
+            stmt.setInt(2, app.getUserId());
             stmt.setDate(3, Date.valueOf(app.getBookingDate()));
             stmt.setString(4, app.getBookingTime());
 
             int affectedRows = stmt.executeUpdate();
-            
-            // Ha sikeres a mentés, beállítjuk az ID-t az objektumra
+
             if (affectedRows > 0) {
-                 try (ResultSet rs = stmt.getGeneratedKeys()) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) {
                         app.setId(rs.getInt(1));
                     }
