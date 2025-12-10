@@ -29,9 +29,7 @@ public class ServicesController {
 
         btnMaleHair.setOnAction(e -> handleMaleHair());
 
-        btnMassage.setOnAction(e ->
-                System.out.println("Masszazs kivalasztva!")
-        );
+       
 
     }
 
@@ -82,6 +80,23 @@ public class ServicesController {
 
     @FXML
     private void handleMassage() {
+        try {
+            // Betölti a masszázs foglaló FXML-t
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("massage_booking.fxml"));
+            Scene scene = new Scene(loader.load());
 
+            // A jelenlegi Stage-et (ablakot) használja a gombból
+            Stage stage = (Stage) btnMassage.getScene().getWindow();
+            
+            // Kicseréli az ablak tartalmát (Scene) az új foglaló felületre
+            stage.setScene(scene);
+            
+            // Beállítja az új címet
+            stage.setTitle("Masszázs Szolgáltatás – Időpontfoglalás");
+            
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

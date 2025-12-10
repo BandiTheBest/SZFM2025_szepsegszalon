@@ -37,11 +37,17 @@ public class FemaleHairBookingController {
         }
 
         // Itt hívjuk meg a mentést
-        boolean success = appointmentRepo.save(
-                "Női Hajvágás",
-                datePicker.getValue(),
-                timeCombo.getValue()
+        // ÚJ, JAVÍTOTT KÓD: Appointment objektum létrehozása és mentése
+        int currentUserId = 1; // Itt is feltételezünk egy ideiglenes felhasználó ID-t!
+
+        Appointment newAppointment = new Appointment(
+                "Női Hajvágás", // serviceName
+                currentUserId, // user_id
+                datePicker.getValue(), // bookingDate
+                timeCombo.getValue() // bookingTime
         );
+
+        boolean success = appointmentRepo.saveAppointment(newAppointment); // Az új metódus használata
 
         if (success) {
             showAlert("Sikeres foglalás!", "Időpont rögzítve!");
