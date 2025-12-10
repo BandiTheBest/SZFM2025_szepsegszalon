@@ -29,7 +29,7 @@ public class FemaleHairBookingController {
         btnBook.setOnAction(e -> handleBooking());
         btnBack.setOnAction(e -> goBack());
     }
-
+@FXML
     private void handleBooking() {
         if (datePicker.getValue() == null || timeCombo.getValue() == null) {
             showAlert("Hiba!", "Kérem töltsön ki minden mezőt!");
@@ -56,7 +56,7 @@ public class FemaleHairBookingController {
             showAlert("Hiba!", "Adatbázis hiba történt a mentéskor.");
         }
     }
-
+    @FXML
     private void goBack() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("services.fxml"));
