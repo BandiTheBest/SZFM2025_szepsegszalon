@@ -40,11 +40,16 @@ public class NailsBookingController {
         }
 
         // Itt hívjuk meg a mentést
-        boolean success = appointmentRepo.save(
-                "Műköröm",
-                datePicker.getValue(),
-                timeCombo.getValue()
+        int currentUserId = 1; // Ideiglenes felhasználó ID, amíg nincs bejelentkezési logika
+
+        Appointment newAppointment = new Appointment(
+                "Műköröm", // serviceName
+                currentUserId, // user_id
+                datePicker.getValue(), // bookingDate
+                timeCombo.getValue() // bookingTime
         );
+
+        boolean success = appointmentRepo.saveAppointment(newAppointment); // Az új metódus használata
 
         if (success) {
             showAlert("Sikeres foglalás!", "Időpont rögzítve!");
