@@ -29,9 +29,7 @@ public class ServicesController {
 
         btnMaleHair.setOnAction(e -> handleMaleHair());
 
-        btnMassage.setOnAction(e ->
-                System.out.println("Masszazs kivalasztva!")
-        );
+       
 
     }
 
