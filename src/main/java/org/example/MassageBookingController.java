@@ -21,7 +21,8 @@ public class MassageBookingController {
     @FXML private ComboBox<String> timeCombo;
     @FXML private Button btnBook;
     @FXML private Label messageLabel;
-
+    @FXML private Button btnBack;
+    
     private final AppointmentRepository appointmentRepository = new AppointmentRepository();
     
     // Ez a masszázs szolgáltatás neve, amit a lekérdezéshez használunk
@@ -163,6 +164,16 @@ public class MassageBookingController {
     
     @FXML
     private void goBack() {
-        // TODO: A Launcher osztállyal való visszaváltás a services.fxml-re
+        // Az aktuális ablak (Stage) bezárása.
+        // A gombhoz rendelt Scene-ből kérjük le az ablakot.
+        try {
+            btnBack.getScene().getWindow().hide();
+        } catch (Exception e) {
+            System.err.println("Hiba a visszanavigálásnál (ablak bezárás): " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        // Mivel a Services.fxml valószínűleg már nyitva van, vagy a MainController újranyitja, 
+        // a bezárás elegendő a "Vissza" funkcióhoz.
     }
 }
