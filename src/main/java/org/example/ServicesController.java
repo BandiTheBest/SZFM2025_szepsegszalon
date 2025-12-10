@@ -99,4 +99,18 @@ public class ServicesController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleMyAppointments() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("my_appointments.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) btnNails.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Foglalásaim");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

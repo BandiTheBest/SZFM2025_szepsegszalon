@@ -35,6 +35,17 @@ public class ManHairBookingController {
             return;
         }
 
+        boolean isTaken = appointmentRepo.isAppointmentTaken(
+                "Férfi Hajvágás",
+                datePicker.getValue(),
+                timeCombo.getValue()
+        );
+
+        if (isTaken) {
+            showAlert("Sikertelen foglalás", "Ez az időpont sajnos már foglalt! Kérem válasszon másikat.");
+            return;
+        }
+
         int currentUserId = 1; // Ideiglenes felhasználó ID, amíg nincs bejelentkezési logika
 
         Appointment newAppointment = new Appointment(

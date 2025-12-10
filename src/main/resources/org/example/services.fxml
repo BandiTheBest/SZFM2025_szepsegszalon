@@ -41,6 +41,11 @@
                 </VBox>
 
             </GridPane>
+
+            <VBox alignment="CENTER" spacing="10" style="-fx-padding: 20 0 0 0;">
+                <Button text="Foglalásaim megtekintése" styleClass="secondary-button" prefWidth="250" onAction="#handleMyAppointments"/>
+            </VBox>
+
         </VBox>
     </VBox>
 </StackPane>

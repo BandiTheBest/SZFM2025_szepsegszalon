@@ -39,6 +39,17 @@ public class NailsBookingController {
             return;
         }
 
+        boolean isTaken = appointmentRepo.isAppointmentTaken(
+                "Műköröm",            // Fontos: Ugyanazt a nevet használd, mint a mentésnél!
+                datePicker.getValue(),
+                timeCombo.getValue()
+        );
+
+        if (isTaken) {
+            showAlert("Sikertelen foglalás", "Ez az időpont sajnos már foglalt! Kérem válasszon másikat.");
+            return; // Itt megállítjuk a folyamatot, nem mentünk tovább
+        }
+
         // Itt hívjuk meg a mentést
         int currentUserId = 1; // Ideiglenes felhasználó ID, amíg nincs bejelentkezési logika
 

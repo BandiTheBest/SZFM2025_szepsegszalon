@@ -31,5 +31,10 @@ public class Appointment {
     public int getUserId() { return userId; }
     public LocalDate getBookingDate() { return bookingDate; }
     public String getBookingTime() { return bookingTime; }
+
+    @Override
+    public String toString() {
+        return serviceName + " | " + bookingDate + " (" + bookingTime + ")";
+    }
     
 }

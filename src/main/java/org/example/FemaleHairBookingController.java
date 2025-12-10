@@ -36,6 +36,17 @@ public class FemaleHairBookingController {
             return;
         }
 
+    boolean isTaken = appointmentRepo.isAppointmentTaken(
+            "Női Hajvágás",
+            datePicker.getValue(),
+            timeCombo.getValue()
+    );
+
+    if (isTaken) {
+        showAlert("Sikertelen foglalás", "Ez az időpont sajnos már foglalt! Kérem válasszon másikat.");
+        return;
+    }
+
         // Itt hívjuk meg a mentést
         // ÚJ, JAVÍTOTT KÓD: Appointment objektum létrehozása és mentése
         int currentUserId = 1; // Itt is feltételezünk egy ideiglenes felhasználó ID-t!
