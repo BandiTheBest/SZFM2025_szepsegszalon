@@ -19,19 +19,16 @@ public class ManHairBookingController {
 
     @FXML
     public void initialize() {
-
         appointmentRepo = new AppointmentRepository();
-
 
         timeCombo.getItems().addAll(
                 "08:00", "09:00", "10:00", "11:00","12:00",
                 "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"
         );
 
-        btnBook.setOnAction(e -> handleBooking());
-        btnBack.setOnAction(e -> goBack());
     }
 
+    @FXML
     private void handleBooking() {
         if (datePicker.getValue() == null || timeCombo.getValue() == null) {
             showAlert("Hiba!", "Kérem töltsön ki minden mezőt!");
@@ -52,8 +49,10 @@ public class ManHairBookingController {
         }
     }
 
+    @FXML
     private void goBack() {
         try {
+            // Itt ellenőrizd, hogy a services.fxml fájlnév helyes-e!
             FXMLLoader loader = new FXMLLoader(getClass().getResource("services.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) btnBook.getScene().getWindow();
