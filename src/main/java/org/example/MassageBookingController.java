@@ -11,10 +11,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label; // Új import
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+// ÚJ IMPORT: Scene váltáshoz és Alert ablakhoz
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import java.io.IOException;
+
 
 public class MassageBookingController {
-    
+
     // FXML elemek (megfelel a massage_booking.fxml-ben szereplő fx:id-knak)
     @FXML private ComboBox<String> serviceCombo;
     @FXML private DatePicker datePicker;
@@ -22,22 +30,22 @@ public class MassageBookingController {
     @FXML private Button btnBook;
     @FXML private Label messageLabel;
     @FXML private Button btnBack;
-    
+
     private final AppointmentRepository appointmentRepository = new AppointmentRepository();
-    
+
     // Ez a masszázs szolgáltatás neve, amit a lekérdezéshez használunk
     private static final String SERVICE_NAME = "Masszázs";
-    
+
     // Állandó időpontok (egyszerűsített séma)
     private static final List<String> ALL_TIMES = List.of(
-        "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"
+            "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"
     );
 
     @FXML
     public void initialize() {
         // 1. Szolgáltatások ComboBox feltöltése (egyszerűsített séma, csak a Masszázs típusok)
         serviceCombo.setItems(FXCollections.observableArrayList(
-            "60 perces Hátmasszázs", "30 perces Frissítő masszázs", "Teljes testmasszázs"
+                "60 perces Hátmasszázs", "30 perces Frissítő masszázs", "Teljes testmasszázs"
         ));
         serviceCombo.getSelectionModel().selectFirst(); // Válassza ki az elsőt alapértelmezetten
 
@@ -50,7 +58,7 @@ public class MassageBookingController {
                 btnBook.setDisable(true);
             }
         });
-        
+
         // A szolgáltatás kiválasztásának változásakor is frissíteni kell a szabad időpontokat
         serviceCombo.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (datePicker.getValue() != null) {
@@ -61,13 +69,14 @@ public class MassageBookingController {
         // 3. Foglalás gomb inaktiválása, amíg nincs időpont kiválasztva
         timeCombo.valueProperty().addListener((obs, oldTime, newTime) -> {
             btnBook.setDisable(newTime == null);
+            // Itt hagytuk a messageLabel.setText(""); sort, hogy új választáskor tűnjön el az üzenet
             messageLabel.setText("");
         });
-        
+
         // 4. Dátumválasztás korlátozása
         setupDatePickerConstraints();
     }
-    
+
     // Csak jövőbeni dátum engedélyezése
     private void setupDatePickerConstraints() {
         datePicker.setDayCellFactory(picker -> new DateCell() {
@@ -75,7 +84,7 @@ public class MassageBookingController {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 // Nem lehet ma és korábbi nap (Csak holnaptól engedi)
-                setDisable(empty || date.isBefore(LocalDate.now())); 
+                setDisable(empty || date.isBefore(LocalDate.now()));
             }
         });
     }
@@ -85,16 +94,15 @@ public class MassageBookingController {
      */
     private void updateAvailableTimeSlots(LocalDate date) {
         timeCombo.getItems().clear();
-        messageLabel.setText("");
+        // messageLabel.setText(""); már nincs itt, ahogy korábban fixáltuk
 
         // 1. Lekérjük az összes foglalt időpontot az adott napra és szolgáltatásra
-        // Mivel az egyszerűsített séma alapján minden masszázst a "Masszázs" kategóriába teszünk:
         List<Appointment> occupied = appointmentRepository.getOccupiedAppointments(date, SERVICE_NAME);
 
         // 2. Kigyűjtjük a foglalt időpontokat egy String listába (pl. ["09:00", "14:00"])
         List<String> occupiedTimes = occupied.stream()
-            .map(Appointment::getBookingTime) // Csak az időt kérjük le
-            .collect(Collectors.toList());
+                .map(Appointment::getBookingTime) // Csak az időt kérjük le
+                .collect(Collectors.toList());
 
         // 3. Összevetjük az összes lehetséges időpontot a foglaltakkal
         List<String> availableTimes = new ArrayList<>();
@@ -104,7 +112,7 @@ public class MassageBookingController {
                 availableTimes.add(time);
             }
         }
-        
+
         // 4. Megjelenítjük a szabad időpontokat
         if (availableTimes.isEmpty()) {
             timeCombo.setPromptText("Nincs szabad időpont ezen a napon.");
@@ -112,17 +120,17 @@ public class MassageBookingController {
             timeCombo.setItems(FXCollections.observableArrayList(availableTimes));
             timeCombo.setPromptText("Válasszon időpontot");
         }
-        
+
         btnBook.setDisable(true);
     }
-    
+
     @FXML
     private void handleBooking() {
         String selectedTime = timeCombo.getValue();
         LocalDate selectedDate = datePicker.getValue();
-        String selectedService = serviceCombo.getValue(); // A Comboboxban kiválasztott szolgáltatás neve
+        String selectedService = serviceCombo.getValue();
 
-        // 1. Validáció: Ellenőrizzük, hogy minden ki van-e választva
+        // 1. Validáció
         if (selectedTime == null || selectedDate == null || selectedService == null) {
             messageLabel.setText("Hiba: Kérjük válasszon időpontot és szolgáltatást.");
             messageLabel.setStyle("-fx-text-fill: red;");
@@ -130,50 +138,74 @@ public class MassageBookingController {
         }
 
         try {
-            // TODO: Lekérem a bejelentkezett felhasználó ID-jét!
-            // Ezt feltételezzük, hogy a Launcher/MainController osztályban tárolódik
-            // Ha még nincs ilyen logika a projektben, használjunk egy ideiglenes ID-t (pl. 1)
-            int currentUserId = 1; // Helyettesítsd a valós logika szerint! 
+            int currentUserId = 1;
 
             // 2. Létrehozzuk az Appointment objektumot
             Appointment newAppointment = new Appointment(
-                SERVICE_NAME, // Az adatbázisban a kategória (Masszázs) tárolódik
-                currentUserId, 
-                selectedDate, 
-                selectedTime
+                    SERVICE_NAME,
+                    currentUserId,
+                    selectedDate,
+                    selectedTime
             );
 
             // 3. Mentés az adatbázisba
             if (appointmentRepository.saveAppointment(newAppointment)) {
-                messageLabel.setText("Sikeres foglalás! Időpont: " + selectedDate.toString() + " " + selectedTime);
-                messageLabel.setStyle("-fx-text-fill: green;");
-                
-                // 4. Frissítjük a szabad időpontokat, hogy a frissen foglalt idő eltűnjön
+
+                // 4. Frissítjük a szabad időpontokat
                 updateAvailableTimeSlots(selectedDate);
+
+                // 5. Megjelenítjük a megerősítő Alert ablakot
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Sikeres Foglalás");
+                alert.setHeaderText("A masszázs időpont lefoglalva!");
+                alert.setContentText(String.format(
+                        "Sikeres foglalás!\nSzolgáltatás: %s\nDátum: %s\nIdőpont: %s",
+                        selectedService, selectedDate.toString(), selectedTime
+                ));
+
+                // Megvárjuk, amíg a felhasználó leokézza az Alert-et
+                alert.showAndWait();
+
+                // 6. Navigálás vissza a főmenübe az OK gomb után
+                goBack();
+
             } else {
                 messageLabel.setText("Hiba a mentés során. Kérjük, próbálja újra.");
                 messageLabel.setStyle("-fx-text-fill: red;");
             }
-            
+
         } catch (Exception e) {
             messageLabel.setText("Hiba történt: " + e.getMessage());
             messageLabel.setStyle("-fx-text-fill: red;");
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     private void goBack() {
-        // Az aktuális ablak (Stage) bezárása.
-        // A gombhoz rendelt Scene-ből kérjük le az ablakot.
+        // JAVÍTVA: Scene váltás a services.fxml-re, nem az ablak bezárása
         try {
-            btnBack.getScene().getWindow().hide();
-        } catch (Exception e) {
-            System.err.println("Hiba a visszanavigálásnál (ablak bezárás): " + e.getMessage());
+            // Betöltjük a Services főmenü FXML-t
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("services.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Lekérjük az aktuális ablakot (Stage-et)
+            Stage stage = (Stage) btnBack.getScene().getWindow();
+
+            // Kicseréljük az ablak tartalmát (Scene) a főmenüre
+            stage.setScene(scene);
+            stage.setTitle("Szolgáltatások Kiválasztása");
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Hiba a visszanavigálásnál a főmenübe: " + e.getMessage());
             e.printStackTrace();
+
+            // Ha a visszaváltás hibás, a régi ablakot bezárjuk, hogy ne maradjon nyitva
+            try {
+                ((Stage) btnBack.getScene().getWindow()).close();
+            } catch (Exception ex) {
+                // Ignore
+            }
         }
-        
-        // Mivel a Services.fxml valószínűleg már nyitva van, vagy a MainController újranyitja, 
-        // a bezárás elegendő a "Vissza" funkcióhoz.
     }
 }
